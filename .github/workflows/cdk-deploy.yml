@@ -45,8 +45,9 @@ jobs:
       - run: npm ci
       - name: cdk deploy
         env:
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
           ECR_REPO: ${{ secrets.ECR_REPO }}
           CDK_STACK_NAME: ${{ secrets.CDK_STACK_NAME }}
           ECR_TAG: latest
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: npx cdk deploy
+        run: npx cdk deploy --require-approval never
