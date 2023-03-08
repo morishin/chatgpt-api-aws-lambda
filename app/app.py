@@ -8,7 +8,7 @@ def handler(event, context):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": os.environ["context"] or ""},
+            {"role": "system", "content": os.getenv("GPT_CONTEXT", default="")},
             {"role": "user", "content": input},
         ]
     )

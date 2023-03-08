@@ -16,6 +16,8 @@ on:
         required: true
       OPENAI_API_KEY:
         required: true
+      GPT_CONTEXT:
+        required: false
   push:
     branches:
       - main
@@ -50,4 +52,5 @@ jobs:
           CDK_STACK_NAME: ${{ secrets.CDK_STACK_NAME }}
           ECR_TAG: latest
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GPT_CONTEXT: ${{ secrets.GPT_CONTEXT }}
         run: npx cdk deploy --require-approval never
