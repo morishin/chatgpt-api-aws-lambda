@@ -1,4 +1,4 @@
-import { Stack, type StackProps } from "aws-cdk-lib";
+import { Duration, Stack, type StackProps } from "aws-cdk-lib";
 import {
   FunctionUrlAuthType,
   DockerImageFunction,
@@ -24,7 +24,9 @@ export class CdkStack extends Stack {
       }),
       environment: {
         OPENAI_API_KEY: process.env.OPENAI_API_KEY ?? "",
+        GPT_CONTEXT: process.env.GPT_CONTEXT ?? "",
       },
+      timeout: Duration.seconds(15),
     });
 
     chatBotFunction.addFunctionUrl({

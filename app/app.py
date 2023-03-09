@@ -1,4 +1,5 @@
 import os
+import sys
 import openai
 
 def handler(event, context):
@@ -18,4 +19,7 @@ def handler(event, context):
     return message
 
 if __name__ == "__main__":
-    print(handler({"input": "Hello"}, None))
+    if sys.argv.length < 1:
+        print("Usage: python app.py <input>")
+        sys.exit(1)
+    print(handler({"input": sys.argv[1]}, None))
