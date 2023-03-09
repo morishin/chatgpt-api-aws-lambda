@@ -44,13 +44,18 @@ jobs:
           node-version: 18
           cache: 'npm'
           cache-dependency-path: 'cdk/package-lock.json'
+      - name: Get latest ECR image tag
+        id: get-latest-ecr-tag
+        run: |
+          ECR_TAG=$(aws ecr describe-images --repository-name ${{ secrets.ECR_REPO }} --query "reverse(sort_by(imageDetails[*], &imagePushedAt))[0].imageTags[0]" | sed -e 's/"//g')
+          echo "::set-output name=ECR_TAG::$ECR_TAG"
       - run: npm ci
       - name: cdk deploy
         env:
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
           ECR_REPO: ${{ secrets.ECR_REPO }}
           CDK_STACK_NAME: ${{ secrets.CDK_STACK_NAME }}
-          ECR_TAG: latest
+          ECR_TAG: ${{ steps.get-latest-ecr-tag.outputs.ECR_TAG }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GPT_CONTEXT: ${{ secrets.GPT_CONTEXT }}
         run: npx cdk deploy --require-approval never
