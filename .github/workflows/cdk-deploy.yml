@@ -48,7 +48,7 @@ jobs:
         id: get-latest-ecr-tag
         run: |
           ECR_TAG=$(aws ecr describe-images --repository-name ${{ secrets.ECR_REPO }} --query "reverse(sort_by(imageDetails[*], &imagePushedAt))[0].imageTags[0]" | sed -e 's/"//g')
-          echo "::set-output name=ECR_TAG::$ECR_TAG"
+          echo "ECR_TAG=$ECR_TAG" >> $GITHUB_OUTPUT
       - run: npm ci
       - name: cdk deploy
         env:
