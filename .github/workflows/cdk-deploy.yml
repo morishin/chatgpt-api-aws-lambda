@@ -2,14 +2,6 @@ name: Run cdk deploy
 
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        description: environment
-        required: true
-        default: fran-bot
-        type: choice
-        options:
-        - fran-bot
   workflow_call:
     secrets:
       AWS_ACCESS_KEY_ID:
@@ -33,7 +25,6 @@ on:
 jobs:
   deploy-lambda:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
     defaults:
       run:
         working-directory: cdk

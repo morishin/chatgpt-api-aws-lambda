@@ -2,14 +2,6 @@ name: Build and Push an image to ECR and Deploy
 
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        description: environment
-        required: true
-        default: fran-bot
-        type: choice
-        options:
-        - fran-bot
   push:
     branches:
       - main
@@ -19,7 +11,6 @@ on:
 jobs:
   ecr-push:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
     defaults:
       run:
         working-directory: app
