@@ -24,7 +24,7 @@ export class CdkStack extends Stack {
       }),
       environment: {
         OPENAI_API_KEY: process.env.OPENAI_API_KEY ?? "",
-        GPT_CONTEXT: process.env.GPT_CONTEXT ?? "",
+        INITIAL_SYSTEM_MESSAGE: process.env.INITIAL_SYSTEM_MESSAGE ?? "",
       },
       timeout: Duration.seconds(15),
     });

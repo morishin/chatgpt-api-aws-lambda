@@ -2,6 +2,14 @@ name: Run cdk deploy
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: environment
+        required: true
+        default: fran-bot
+        type: choice
+        options:
+        - fran-bot
   workflow_call:
     secrets:
       AWS_ACCESS_KEY_ID:
@@ -16,8 +24,6 @@ on:
         required: true
       OPENAI_API_KEY:
         required: true
-      GPT_CONTEXT:
-        required: false
   push:
     branches:
       - main
@@ -27,6 +33,7 @@ on:
 jobs:
   deploy-lambda:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     defaults:
       run:
         working-directory: cdk
@@ -57,5 +64,5 @@ jobs:
           CDK_STACK_NAME: ${{ secrets.CDK_STACK_NAME }}
           ECR_TAG: ${{ steps.get-latest-ecr-tag.outputs.ECR_TAG }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          GPT_CONTEXT: ${{ secrets.GPT_CONTEXT }}
+          INITIAL_SYSTEM_MESSAGE: ${{ vars.INITIAL_SYSTEM_MESSAGE }}
         run: npx cdk deploy --require-approval never
